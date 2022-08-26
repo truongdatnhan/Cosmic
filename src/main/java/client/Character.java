@@ -4136,7 +4136,7 @@ public class Character extends AbstractCharacterObject {
             }
         }
 
-        Comparator cmp = new Comparator<Pair<StatEffect, Integer>>() {
+        Comparator<Pair<StatEffect, Integer>> cmp = new Comparator<>() {
             @Override
             public int compare(Pair<StatEffect, Integer> o1, Pair<StatEffect, Integer> o2) {
                 return o2.getRight().compareTo(o1.getRight());
@@ -10425,7 +10425,7 @@ public class Character extends AbstractCharacterObject {
         this.partyQuest = pq;
     }
 
-    public void setCpqTimer(ScheduledFuture timer) {
+    public void setCpqTimer(ScheduledFuture<?> timer) {
         this.cpqSchedule = timer;
     }
 

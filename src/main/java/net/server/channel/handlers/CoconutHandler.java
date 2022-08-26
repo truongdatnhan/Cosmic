@@ -42,13 +42,17 @@ public final class CoconutHandler extends AbstractPacketHandler {
         int id = p.readShort();
         MapleMap map = c.getPlayer().getMap();
         Coconut event = map.getCoconut();
-        Coconuts nut = event.getCoconut(id);
-        if (!nut.isHittable()) {
-            return;
-        }
+        
         if (event == null) {
             return;
         }
+        
+        Coconuts nut = event.getCoconut(id);
+        
+        if (!nut.isHittable()) {
+            return;
+        }
+        
         if (currentServerTime() < nut.getHitTime()) {
             return;
         }

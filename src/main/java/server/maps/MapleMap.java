@@ -96,8 +96,8 @@ public class MapleMap {
     private final Map<String, Integer> environment = new LinkedHashMap<>();
     private final Map<MapItem, Long> droppedItems = new LinkedHashMap<>();
     private final LinkedList<WeakReference<MapObject>> registeredDrops = new LinkedList<>();
-    private final Map<MobLootEntry, Long> mobLootEntries = new HashMap(20);
-    private final List<Runnable> statUpdateRunnables = new ArrayList(50);
+    private final Map<MobLootEntry, Long> mobLootEntries = new HashMap<>(20);
+    private final List<Runnable> statUpdateRunnables = new ArrayList<>(50);
     private final List<Rectangle> areas = new ArrayList<>();
     private FootholdTree footholds = null;
     private Pair<Integer, Integer> xLimits;  // caches the min and max x's with available footholds
@@ -4156,10 +4156,10 @@ public class MapleMap {
 
     private final List<Point> takenSpawns = new LinkedList<>();
     private final List<GuardianSpawnPoint> guardianSpawns = new LinkedList<>();
-    private final List<MCSkill> blueTeamBuffs = new ArrayList();
-    private final List<MCSkill> redTeamBuffs = new ArrayList();
-    private final List<Integer> skillIds = new ArrayList();
-    private final List<Pair<Integer, Integer>> mobsToSpawn = new ArrayList();
+    private final List<MCSkill> blueTeamBuffs = new ArrayList<>();
+    private final List<MCSkill> redTeamBuffs = new ArrayList<>();
+    private final List<Integer> skillIds = new ArrayList<>();
+    private final List<Pair<Integer, Integer>> mobsToSpawn = new ArrayList<>();
 
     public List<MCSkill> getBlueTeamBuffs() {
         return blueTeamBuffs;

@@ -167,7 +167,7 @@ public class ItemAction extends AbstractQuestAction {
         List<Pair<Item, InventoryType>> selectList = new LinkedList<>();
         List<Pair<Item, InventoryType>> randomList = new LinkedList<>();
 
-        List<Integer> allSlotUsed = new ArrayList(5);
+        List<Integer> allSlotUsed = new ArrayList<>(5);
         for (byte i = 0; i < 5; i++) {
             allSlotUsed.add(0);
         }
@@ -216,7 +216,7 @@ public class ItemAction extends AbstractQuestAction {
             int result;
             Client c = chr.getClient();
 
-            List<Integer> rndUsed = new ArrayList(5);
+            List<Integer> rndUsed = new ArrayList<>(5);
             for (byte i = 0; i < 5; i++) {
                 rndUsed.add(allSlotUsed.get(i));
             }

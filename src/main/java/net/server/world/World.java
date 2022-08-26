@@ -772,7 +772,7 @@ public class World {
 
     public void putMarriageQueued(int marriageId, boolean cathedral, boolean premium, int groomId, int brideId) {
         queuedMarriages.put(marriageId, new Pair<>(new Pair<>(cathedral, premium), new Pair<>(groomId, brideId)));
-        marriageGuests.put(marriageId, new HashSet());
+        marriageGuests.put(marriageId, new HashSet<>());
     }
 
     public Pair<Boolean, Set<Integer>> removeMarriageQueued(int marriageId) {
