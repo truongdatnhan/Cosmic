@@ -965,10 +965,6 @@ public class AbstractPlayerInteraction {
         return LifeFactory.getMonster(mid);
     }
 
-    public MobSkill getMobSkill(int skill, int level) {
-        return MobSkillFactory.getMobSkill(skill, level);
-    }
-
     public void spawnGuide() {
         c.sendPacket(PacketCreator.spawnGuide(true));
     }
@@ -1184,5 +1180,31 @@ public class AbstractPlayerInteraction {
 
     public long getCurrentTime() {
         return Server.getInstance().getCurrentTime();
+    }
+
+    public void weakenAreaBoss(int monsterId, String message) {
+        MapleMap map = c.getPlayer().getMap();
+        Monster monster = map.getMonsterById(monsterId);
+        if (monster == null) {
+            return;
+        }
+
+        applySealSkill(monster);
+        applyReduceAvoid(monster);
+        sendBlueNotice(map, message);
+    }
+
+    private void applySealSkill(Monster monster) {
+        MobSkill sealSkill = MobSkillFactory.getMobSkillOrThrow(MobSkillType.SEAL_SKILL, 1);
+        sealSkill.applyEffect(monster);
+    }
+
+    private void applyReduceAvoid(Monster monster) {
+        MobSkill reduceAvoidSkill = MobSkillFactory.getMobSkillOrThrow(MobSkillType.EVA, 2);
+        reduceAvoidSkill.applyEffect(monster);
+    }
+
+    private void sendBlueNotice(MapleMap map, String message) {
+        map.dropMessage(6, message);
     }
 }

@@ -64,10 +64,7 @@ import server.events.Events;
 import server.events.RescueGaga;
 import server.events.gm.Fitness;
 import server.events.gm.Ola;
-import server.life.MobSkill;
-import server.life.MobSkillFactory;
-import server.life.Monster;
-import server.life.PlayerNPC;
+import server.life.*;
 import server.maps.*;
 import server.maps.MiniGame.MiniGameResult;
 import server.minigame.RockPaperScissor;
@@ -1874,25 +1871,25 @@ public class Character extends AbstractCharacterObject {
         }
     }
 
-    public boolean applyConsumeOnPickup(final int itemid) {
-        if (itemid / 1000000 == 2) {
-            if (ii.isConsumeOnPickup(itemid)) {
-                if (ItemConstants.isPartyItem(itemid)) {
-                    List<Character> pchr = this.getPartyMembersOnSameMap();
-
-                    if (!ItemId.isPartyAllCure(itemid)) {
-                        StatEffect mse = ii.getItemEffect(itemid);
-
-                        if (!pchr.isEmpty()) {
-                            for (Character mc : pchr) {
-                                mse.applyTo(mc);
+    public boolean applyConsumeOnPickup(final int itemId) {
+        if (itemId / 1000000 == 2) {
+            if (ii.isConsumeOnPickup(itemId)) {
+                if (ItemConstants.isPartyItem(itemId)) {
+                    List<Character> partyMembers = this.getPartyMembersOnSameMap();
+                    if (!ItemId.isPartyAllCure(itemId)) {
+                        StatEffect mse = ii.getItemEffect(itemId);
+                        if (!partyMembers.isEmpty()) {
+                            for (Character mc : partyMembers) {
+                                if (mc.isAlive()) {
+                                    mse.applyTo(mc);
+                                }
                             }
-                        } else {
+                        } else if (this.isAlive()) {
                             mse.applyTo(this);
                         }
                     } else {
-                        if (!pchr.isEmpty()) {
-                            for (Character mc : pchr) {
+                        if (!partyMembers.isEmpty()) {
+                            for (Character mc : partyMembers) {
                                 mc.dispelDebuffs();
                             }
                         } else {
@@ -1900,11 +1897,11 @@ public class Character extends AbstractCharacterObject {
                         }
                     }
                 } else {
-                    ii.getItemEffect(itemid).applyTo(this);
+                    ii.getItemEffect(itemId).applyTo(this);
                 }
 
-                if (itemid / 10000 == 238) {
-                    this.getMonsterBook().addCard(client, itemid);
+                if (itemId / 10000 == 238) {
+                    this.getMonsterBook().addCard(client, itemId);
                 }
                 return true;
             }
@@ -7329,10 +7326,9 @@ public class Character extends AbstractCharacterObject {
                             final int skilllv = rs.getInt("mobskilllv");
                             final long length = rs.getInt("length");
 
-                            MobSkill ms = MobSkillFactory.getMobSkill(skillid, skilllv);
-                            if (ms != null) {
-                                loadedDiseases.put(disease, new Pair<>(length, ms));
-                            }
+                            MobSkillType type = MobSkillType.from(skillid).orElseThrow();
+                            MobSkill ms = MobSkillFactory.getMobSkillOrThrow(type, skilllv);
+                            loadedDiseases.put(disease, new Pair<>(length, ms));
                         }
                     }
                 }
@@ -8111,8 +8107,9 @@ public class Character extends AbstractCharacterObject {
                         ps.setInt(2, e.getKey().ordinal());
 
                         MobSkill ms = e.getValue().getRight();
-                        ps.setInt(3, ms.getSkillId());
-                        ps.setInt(4, ms.getSkillLevel());
+                        MobSkillId msId = ms.getId();
+                        ps.setInt(3, msId.type().getId());
+                        ps.setInt(4, msId.level());
                         ps.setInt(5, e.getValue().getLeft().intValue());
                         ps.addBatch();
                     }
