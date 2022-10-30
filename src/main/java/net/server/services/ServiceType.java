@@ -23,7 +23,7 @@ package net.server.services;
  * @author Ronan
  */
 public interface ServiceType<T extends Enum<?>> {
-    Service createService();
+    Service<? extends BaseService> createService();
     int ordinal();
     T[] enumValues();
 }

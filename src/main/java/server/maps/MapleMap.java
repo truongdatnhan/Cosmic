@@ -1682,7 +1682,7 @@ public class MapleMap {
     public List<MapObject> getMapObjects() {
         objectRLock.lock();
         try {
-            return new LinkedList(mapobjects.values());
+            return new LinkedList<>(mapobjects.values());
         } finally {
             objectRLock.unlock();
         }

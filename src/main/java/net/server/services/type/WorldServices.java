@@ -27,7 +27,7 @@ import net.server.services.task.world.CharacterSaveService;
 /**
  * @author Ronan
  */
-public enum WorldServices implements ServiceType {
+public enum WorldServices implements ServiceType<WorldServices> {
 
     SAVE_CHARACTER(CharacterSaveService.class);
 
@@ -38,8 +38,8 @@ public enum WorldServices implements ServiceType {
     }
 
     @Override
-    public Service createService() {
-        return new Service(s);
+    public Service<? extends BaseService> createService() {
+        return new Service<>(s);
     }
 
     @Override

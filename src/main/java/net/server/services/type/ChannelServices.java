@@ -27,7 +27,7 @@ import net.server.services.task.channel.*;
 /**
  * @author Ronan
  */
-public enum ChannelServices implements ServiceType {
+public enum ChannelServices implements ServiceType<ChannelServices> {
 
     MOB_STATUS(MobStatusService.class),
     MOB_ANIMATION(MobAnimationService.class),
@@ -43,8 +43,8 @@ public enum ChannelServices implements ServiceType {
     }
 
     @Override
-    public Service createService() {
-        return new Service(s);
+    public Service<? extends BaseService> createService() {
+        return new Service<>(s);
     }
 
     @Override
